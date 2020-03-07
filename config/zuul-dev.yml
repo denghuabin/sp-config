@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: zuul
+
+   #禁止配置中心的配置将客户端配置覆盖掉
+  cloud:
+    config:
+      override-none: true
+
+server:
+  port: 3001
+  
+eureka: 
+  client: 
+    service-url: 
+      defaultZone: http://eureka1:2001/eureka,http://eureka2:2002/eureka
+
+
+zuul:
+  routes:
+    item-service: /item-service/**
+    user-service: /user-service/**
+    order-service: /order-service/**
+  
+  #zuul不推荐重试  启用重试是以下配置  
+  retryable: true
+  
+  #重试默认参数
+ribbon: 
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+
+#降级超时时间 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 500
+#添加监控  --actuator里的
+management: 
+  endpoints: 
+    web:
+      exposure:
+        include:
+        - hystrix.stream
+
+  
