@@ -46,11 +46,10 @@ hystrix:
           thread:
             timeoutInMilliseconds: 500
 #添加监控  --actuator里的
-management: 
-  endpoints: 
+management:
+  endpoints:
     web:
       exposure:
-        include:
-        - hystrix.stream
+        include: bus-refresh
 
   
